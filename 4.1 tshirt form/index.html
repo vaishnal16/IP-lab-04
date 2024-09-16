@@ -6,176 +6,220 @@
     <title>Customized T-Shirt Order Form</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
         }
-        .form-group {
-            margin-bottom: 15px;
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
         }
-        .form-group label {
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        fieldset {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        legend {
+            font-weight: bold;
+            color: #2c3e50;
+            padding: 0 10px;
+        }
+        label {
             display: block;
             margin-bottom: 5px;
+            color: #34495e;
         }
-        .form-group input, .form-group select, .form-group textarea {
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
             width: 100%;
             padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             box-sizing: border-box;
         }
-        .form-group textarea {
-            resize: vertical;
-        }
-        .button {
+        input[type="submit"],
+        input[type="reset"],
+        button {
+            background-color: #3498db;
+            color: #ffffff;
             padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
         }
-        .button:hover {
-            background-color: #0056b3;
+        input[type="submit"]:hover,
+        input[type="reset"]:hover,
+        button:hover {
+            background-color: #2980b9;
         }
-        .receipt {
+        .error {
+            color: #e74c3c;
+            font-size: 0.9em;
+            margin-top: -8px;
+            margin-bottom: 10px;
+        }
+        #receipt {
             display: none;
-            margin-top: 20px;
+            background-color: #ffffff;
             border: 1px solid #ddd;
-            padding: 15px;
-            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #receipt h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        #receipt ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #receipt li {
+            margin-bottom: 10px;
+        }
+        #receipt strong {
+            color: #34495e;
         }
     </style>
 </head>
 <body>
-    <h1>Customized T-Shirt Order Form</h1>
-    <form id="orderForm">
-        <fieldset>
-            <legend>T-Shirt Customization</legend>
+<h1>Order Your Customized T-Shirt</h1>
+<form id="orderForm" action="/submit-order" method="POST"> <!-- Replace with actual action URL -->
+    <fieldset>
+        <legend>Customize Your T-Shirt</legend>
+        <label for="tagline">Tagline on the Shirt:</label>
+        <input type="text" id="tagline" name="tagline" placeholder="Enter your tagline" required pattern="[A-Za-z0-9\s]+" title="Only letters, numbers, and spaces are allowed." maxlength="50">
+        <span id="taglineError" class="error"></span>
 
-            <div class="form-group">
-                <label for="tagline">Tagline on the Shirt:</label>
-                <input type="text" id="tagline" name="tagline" placeholder="Enter your tagline" required>
-            </div>
+        <label for="color">Color:</label>
+        <select id="color" name="color" required>
+            <option value="">Select a color</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+            <option value="black">Black</option>
+            <option value="white">White</option>
+        </select>
 
-            <div class="form-group">
-                <label for="color">Color:</label>
-                <select id="color" name="color" required>
-                    <option value="" disabled selected>Select a color</option>
-                    <option value="white">White</option>
-                    <option value="black">Black</option>
-                    <option value="red">Red</option>
-                    <option value="blue">Blue</option>
-                    <option value="green">Green</option>
-                </select>
-            </div>
+        <label for="size">Size:</label>
+        <select id="size" name="size" required>
+            <option value="">Select a size</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+            <option value="xlarge">X-Large</option>
+        </select>
 
-            <div class="form-group">
-                <label for="size">Size:</label>
-                <select id="size" name="size" required>
-                    <option value="" disabled selected>Select a size</option>
-                    <option value="small">Small</option>
-                    <option value="medium">Medium</option>
-                    <option value="large">Large</option>
-                    <option value="xlarge">X-Large</option>
-                </select>
-            </div>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="100" required>
 
-            <div class="form-group">
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" name="quantity" min="1" placeholder="1" required>
-            </div>
+        <label for="delivery-date">Delivery Date:</label>
+        <input type="date" id="delivery-date" name="delivery-date" required>
+    </fieldset>
 
-            <div class="form-group">
-                <label for="delivery-date">Delivery Date:</label>
-                <input type="date" id="delivery-date" name="delivery-date" required>
-            </div>
-        </fieldset>
+    <fieldset>
+        <legend>Delivery Details</legend>
+        <label for="recipient-name">Recipient's Name:</label>
+        <input type="text" id="recipient-name" name="recipient-name" placeholder="Enter recipient's name" required>
 
-        <fieldset>
-            <legend>Delivery Details</legend>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" placeholder="Enter delivery address" required>
 
-            <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" placeholder="Recipient's Name" required>
-            </div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
-            <div class="form-group">
-                <label for="address">Address:</label>
-                <input type="text" id="address" name="address" placeholder="Delivery Address" required>
-            </div>
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number.">
+        <span id="phoneError" class="error"></span>
+    </fieldset>
 
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="samplemail@gmail.com" required>
-            </div>
+    <label for="comments">Additional Comments:</label>
+    <textarea id="comments" name="comments" rows="4" placeholder="Any additional comments or special instructions"></textarea>
 
-            <div class="form-group">
-                <label for="phone">Phone:</label>
-                <input type="tel" id="phone" name="phone" placeholder="Recipient's Phone" pattern="[0-9]{10}" required>
-            </div>
+    <button type="submit">Place Order</button>
+    <button type="reset">Reset Form</button>
+</form>
 
-            <div class="form-group">
-                <label for="comments">Additional Comments:</label>
-                <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Any additional comments or special instructions"></textarea>
-            </div>
-        </fieldset>
+<div id="receipt"></div>
 
-        <button type="button" class="button" onclick="processOrder()">Submit Order</button>
-        <button type="reset" class="button">Reset Form</button>
-    </form>
+<script>
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (validateForm()) {
+        generateReceipt();
+    }
+});
 
-    <div id="receipt" class="receipt"></div>
+function validateForm() {
+    let isValid = true;
 
-    <script>
-        function processOrder() {
-            const tagline = document.getElementById('tagline').value.trim();
-            const color = document.getElementById('color').value;
-            const size = document.getElementById('size').value;
-            const quantity = document.getElementById('quantity').value.trim();
-            const deliveryDate = document.getElementById('delivery-date').value;
-            const name = document.getElementById('name').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const comments = document.getElementById('comments').value.trim();
+    // Validate tagline
+    const tagline = document.getElementById('tagline');
+    if (tagline.value.length > 50) {
+        document.getElementById('taglineError').textContent = 'Tagline must be 50 characters or less';
+        isValid = false;
+    } else {
+        document.getElementById('taglineError').textContent = '';
+    }
 
-            // Validate input data
-            if (!tagline || !color || !size || !quantity || !deliveryDate || !name || !address || !email || !phone) {
-                alert('Please fill in all required fields.');
-                return;
-            }
+    // Validate phone number
+    const phone = document.getElementById('phone');
+    if (!/^\d{10}$/.test(phone.value)) {
+        document.getElementById('phoneError').textContent = 'Please enter a valid 10-digit phone number';
+        isValid = false;
+    } else {
+        document.getElementById('phoneError').textContent = '';
+    }
 
-            if (phone.length !== 10 || isNaN(phone)) {
-                alert('Phone number must be exactly 10 digits.');
-                return;
-            }
+    return isValid;
+}
 
-            if (comments.length > 200) {
-                alert('Comments should not exceed 200 characters.');
-                return;
-            }
+function generateReceipt() {
+    const receiptDiv = document.getElementById('receipt');
+    const formData = new FormData(document.getElementById('orderForm'));
+    const receiptDate = new Date().toLocaleString();
 
-            // Generate receipt
-            const receipt = document.getElementById('receipt');
-            const date = new Date();
-            const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+    let receiptHTML = `
+        <h2>Order Confirmation Receipt</h2>
+        <p><strong>Date:</strong> ${receiptDate}</p>
+        <h3>Order Details:</h3>
+        <ul>
+    `;
 
-            receipt.innerHTML = `
-                <h2>Order Receipt</h2>
-                <p><strong>Tagline:</strong> ${tagline}</p>
-                <p><strong>Color:</strong> ${color}</p>
-                <p><strong>Size:</strong> ${size}</p>
-                <p><strong>Quantity:</strong> ${quantity}</p>
-                <p><strong>Delivery Date:</strong> ${deliveryDate}</p>
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Address:</strong> ${address}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Phone:</strong> ${phone}</p>
-                <p><strong>Comments:</strong> ${comments}</p>
-                <p><strong>Date:</strong> ${formattedDate}</p>
-            `;
-            receipt.style.display = 'block';
+    for (let [key, value] of formData.entries()) {
+        receiptHTML += `<li><strong>${key}:</strong> ${value}</li>`;
+    }
 
-            // Clear form
-            document.getElementById('orderForm').reset();
-        }
-    </script>
+    receiptHTML += `
+        </ul>
+        <p>Thank you for your order! We will process it shortly.</p>
+    `;
+
+    receiptDiv.innerHTML = receiptHTML;
+    receiptDiv.style.display = 'block';
+}
+</script>
 </body>
 </html>
